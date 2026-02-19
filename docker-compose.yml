@@ -36,10 +36,13 @@ services:
 
   calcom:
     image: calcom.docker.scarf.sh/calcom/cal.com
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
     build:
       context: .
       dockerfile: Dockerfile
       args:
+        NEXT_OTEL_SDK_DISABLED: ${NEXT_OTEL_SDK_DISABLED}
+        NEXT_SWC_ARCH: ${NEXT_SWC_ARCH}
         NEXT_PUBLIC_WEBAPP_URL: ${NEXT_PUBLIC_WEBAPP_URL}
         NEXT_PUBLIC_API_V2_URL: ${NEXT_PUBLIC_API_V2_URL}
         NEXT_PUBLIC_LICENSE_CONSENT: ${NEXT_PUBLIC_LICENSE_CONSENT}
@@ -120,6 +123,7 @@ services:
   # Optional use of Prisma Studio. In production, comment out or remove the section below to prevent unwanted access to your database.
   studio:
     image: calcom.docker.scarf.sh/calcom/cal.com
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
     restart: always
     networks:
       - stack

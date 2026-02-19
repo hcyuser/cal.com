@@ -5,6 +5,8 @@ ARG DATABASE_URL
 
 WORKDIR /calcom
 
+RUN apk add --no-cache libc6-compat python3 make g++
+
 RUN set -eux;
 RUN ln -s /usr/lib/libssl.so.3 /lib/libssl.so.3
 
@@ -16,6 +18,7 @@ ENV USE_POOL="true"
 
 COPY . .
 
+RUN corepack enable
 RUN yarn install
 RUN yarn workspace @calcom/api-v2 run generate-schemas
 RUN yarn workspace @calcom/api-v2 run build:docker
